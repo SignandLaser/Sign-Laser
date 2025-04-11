@@ -269,13 +269,13 @@
 <!-- Scripts -->
 <script>
   function handleOrder(selectId) {
-    const option = document.getElementById(selectId).value;
-    if (option === 'Order via WhatsApp') {
-      window.open('https://wa.me/918281257256?text=Hi%2C%20I%27m%20interested%20in%20a%20product%20from%20Sign%20and%20Laser!', '_blank');
-    } else if (option === 'Order via Website') {
-      window.location.href = 'payment.html';
-    }else if (selected === "Buy on Amazon") {
+    const selected = document.getElementById(selectId).value;
+    if (selected === "Order via WhatsApp") {
+      window.open("https://wa.me/918281257256", "_blank");
+    } else if (selected === "Buy on Amazon") {
       window.open("https://www.amazon.in/storefront?me=A1NG6BW0OIFJKU&ref_=ssf_share", "_blank");
+    } else if (selected === "Order via Website") {
+      window.location.href = "payment.html";
     }
   }
   const faders = document.querySelectorAll('.fade-in');
