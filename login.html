@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100 text-gray-900 font-sans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Sign and Laser</title>
+  <link href="output.css" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+  <!-- Container -->
+  <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full space-y-6">
+
+    <!-- Title -->
+    <h1 class="text-2xl font-bold text-center">Login to Your Account</h1>
+
+    <!-- Google Sign-In Button -->
+    <div id="g_id_onload"
+         data-client_id="300052571592-f29dp367irccdh3ci4c08kj0pha0iifn.apps.googleusercontent.com"
+         data-login_uri="https://signandlaser.github.io/Sign-Laser/login.html"
+         data-auto_prompt="false">
+    </div>
+    
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="continue_with"
+         data-shape="pill"
+         data-logo_alignment="left">
+    </div>
+
+    <!-- OR Divider -->
+    <div class="flex justify-center items-center space-x-2">
+      <span class="h-px w-1/4 bg-gray-300"></span>
+      <span class="text-gray-500">OR</span>
+      <span class="h-px w-1/4 bg-gray-300"></span>
+    </div>
+
+    <!-- Username and Password Login -->
+    <div class="space-y-4">
+      <input type="email" id="email" placeholder="Email Address" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring-yellow-500 focus:outline-none">
+      <input type="password" id="password" placeholder="Password" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring-yellow-500 focus:outline-none">
+    </div>
+
+    <!-- Login Button -->
+    <button onclick="handleLogin()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-3 rounded-full font-semibold text-lg">Login</button>
+
+    <!-- Signup Link -->
+    <p class="text-center text-gray-500">
+      Don't have an account? 
+      <a href="signup.html" class="text-yellow-500 hover:text-yellow-600">Sign Up</a>
+    </p>
+  </div>
+
+  <!-- Handle Login via Google or Form -->
+  <script>
+    // Google Login Callback
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      console.log('User data from Google:', responsePayload);
+      localStorage.setItem('user', JSON.stringify(responsePayload));
+      window.location.href = "index.html"; // Redirect to homepage after successful login
+    }
+
+    // Helper function to decode JWT token
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    }
+
+    // Google Login button initialization
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "300052571592-f29dp367irccdh3ci4c08kj0pha0iifn.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        {
+          theme: "outline",
+          size: "large",
+          type: "standard",
+          shape: "pill",
+          logo_alignment: "left"
+        }
+      );
+    };
+
+    // Login using form credentials
+    function handleLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (email && password) {
+        // Send credentials to your server for authentication
+        alert("Login successfully, this is where you can handle authentication.");
+        // Redirect after successful login
+        window.location.href = "index.html";
+      } else {
+        alert("Please enter email and password.");
+      }
+    }
+  </script>
+</body>
+</html>
