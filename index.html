@@ -4,36 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
-  <link href="style.css" rel="stylesheet">
-  <style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="style.css" rel="stylesheet"> <style>
+    /* Added a basic style.css link above for clarity, using CDN for Tailwind here */
     .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
     .fade-in.in-view { opacity: 1; transform: translateY(0); }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans">
-
-<!-- Header -->
-<header class="flex justify-between items-center p-4 bg-white shadow fixed w-full top-0 z-50">
+<body class="bg-gray-100 text-gray-900 font-sans pt-24"> <header class="flex justify-between items-center p-4 bg-white shadow fixed w-full top-0 z-50">
   <div class="flex items-center space-x-3">
-    <img src="logo.png" alt="Logo" class="h-20 w-auto">
-    <div class="text-2xl font-bold text-slate-800">Sign & Laser</div>
+    <img src="logo.png" alt="Logo" class="h-20 w-auto"> <div class="text-2xl font-bold text-slate-800">Sign & Laser</div>
   </div>
 
-  <!-- People Icon Button (Login Button) -->
-  <button onclick="window.location.href='login.html'"
-          class="bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full transition shadow-md flex items-center justify-center">
-    <!-- People Login Icon (SVG) -->
-    <svg xmlns="http://www.w3.org/2000/svg"
-         class="h-5 w-5 text-white"
-         fill="none"
-         viewBox="0 0 24 24"
-         stroke="currentColor">
-      <path stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  </button>
+  <div class="flex items-center space-x-6"> <nav class="flex space-x-6 text-sm font-semibold text-gray-700">
+      <a href="#" class="hover:text-yellow-500">Home</a>
+      <a href="#" class="hover:text-yellow-500">Categories</a>
+      <a href="#" class="hover:text-yellow-500">My Account</a>
+      <a href="support.html" class="hover:text-yellow-500">Support</a>
+    </nav>
+
+    <button onclick="window.location.href='login.html'"
+            class="bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full transition shadow-md flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="h-5 w-5 text-white"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke="currentColor">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </button>
+  </div>
 </header>
 
 <!-- Hero -->
@@ -51,11 +54,6 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" /></svg>
     </div>
   </div>
-  <div class="flex space-x-6 text-sm font-semibold text-gray-700">
-    <a href="#" class="hover:text-yellow-500">Home</a>
-    <a href="#" class="hover:text-yellow-500">Categories</a>
-    <a href="#" class="hover:text-yellow-500">My Account</a>
-    <a href="support.html" class="hover:text-yellow-500">Support</a>
   </div>
 </div>
 
@@ -63,6 +61,7 @@
 <section id="products" class="py-16 px-6 bg-white">
   <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
   <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
     <!-- Product 1 -->
     <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
       <img src="https://via.placeholder.com/300x200.png?text=Product+1" alt="Product 1" class="w-full h-48 object-cover rounded-md mb-4" />
@@ -228,19 +227,7 @@
       <p>Phone: +91 82812 57256</p>
       </p>
     </div>
-   <div>
-  <h4 class="font-bold text-lg mb-2">Accepted Payment Methods</h4>
-  <div class="flex space-x-4 items-center mt-2">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" class="h-6">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard" class="h-6">
-    <img src="upi.png" alt="UPI" class="h-6">
-    <img src="cod.png" alt="Cash on Delivery" class="h-6">
-  </div>
-</div>
-    <div>
-      <h4 class="font-bold text-lg mb-2">Other Services</h4>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" class="h-6" alt="Amazon Service">
-    </div>
+    
     <div>
       <h4 class="font-bold text-lg mb-2">Other Support</h4>
       <div class="flex space-x-4 mt-2">
