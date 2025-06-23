@@ -34,7 +34,7 @@
   }
 
     async function uploadImage(file) {
-  const compressedBlob = await resizeImage(file);
+  const compressedBlob = await resizeImage(file); // compress first
 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -50,7 +50,7 @@
           },
           body: JSON.stringify({
             action: "uploadImage",
-            name: name,
+            name,
             data: base64
           })
         });
