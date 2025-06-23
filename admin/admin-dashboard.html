@@ -11,17 +11,23 @@
     };
 
     async function uploadImage(file) {
-      const formData = new FormData();
-      formData.append("image", file);
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64Data = reader.result.split(",")[1];
 
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec", {
-        method: "POST",
-        body: formData,
-      });
-      const result = await res.json();
-      return result.imageUrl;
-    }
+      const url = `https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec?action=uploadImage&data=${encodeURIComponent(base64Data)}&name=${encodeURIComponent(file.name)}`;
 
+      const response = await fetch(url);
+      const result = await response.json();
+      resolve(result.imageUrl);
+    };
+
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+    
     async function submitForm(event) {
   event.preventDefault();
   console.log("✅ Submit button clicked");
