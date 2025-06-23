@@ -18,7 +18,17 @@
       transform: scaleY(1);
       opacity: 1;
     }
-  </style>
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-in-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+   </style>
+
 </head>
 
 <body class="bg-gray-100 text-gray-900 font-sans pt-24">
@@ -81,7 +91,8 @@
   <!-- Products Section -->
   <section id="products" class="py-16 px-6 bg-white">
     <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
-    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div id="product-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+  <div id="loading" class="text-center col-span-3 text-lg">Loading products...</div>
 
     <!-- Product 1 -->
     <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
