@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard | Sign and Laser</title>
+  <script>
+    window.onload = () => {
+      if (localStorage.getItem("admin_logged") !== "yes") {
+        window.location.href = "login.html";
+      }
+    };
+
+    async function uploadImage(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await fetch("https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec/exec", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      return result.imageUrl;
+    }
+
+    async function submitForm(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const price = document.getElementById("price").value;
+      const description = document.getElementById("description").value;
+      const stock = document.getElementById("stock").value;
+      const amazon = document.getElementById("amazon").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+      const imageFile = document.getElementById("image").files[0];
+
+      if (!imageFile) {
+        alert("Please select an image");
+        return;
+      }
+
+      const imageUrl = await uploadImage(imageFile);
+
+      const response = await fetch(
+        `https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec/exec?action=addProduct&name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&description=${encodeURIComponent(description)}&stock=${stock}&image=${encodeURIComponent(imageUrl)}&amazon=${encodeURIComponent(amazon)}&whatsapp=${encodeURIComponent(whatsapp)}`
+      );
+
+      const result = await response.json();
+      if (result.success) {
+        alert("Product added successfully!");
+        document.getElementById("product-form").reset();
+      } else {
+        alert("Failed to add product.");
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: #f9fafb;
+      font-family: Arial;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    input, select, textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background: #facc15;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Product</h2>
+    <form id="product-form" onsubmit="submitForm(event)">
+      <input type="text" id="name" placeholder="Product Name" required />
+      <input type="number" id="price" placeholder="Price" required />
+      <textarea id="description" placeholder="Description" required></textarea>
+      <select id="stock">
+        <option value="Available">Available</option>
+        <option value="Out of Stock">Out of Stock</option>
+      </select>
+      <input type="url" id="amazon" placeholder="Amazon Link" required />
+      <input type="url" id="whatsapp" placeholder="WhatsApp Link (e.g., https://wa.me/91XXXXXXXXXX)" required />
+      <input type="file" id="image" accept="image/*" required />
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+</body>
+</html>
