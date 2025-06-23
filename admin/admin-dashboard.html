@@ -23,7 +23,8 @@
     }
 
     async function submitForm(event) {
-      event.preventDefault();
+  event.preventDefault();
+  console.log("✅ Submit button clicked");
       const name = document.getElementById("name").value;
       const price = document.getElementById("price").value;
       const description = document.getElementById("description").value;
