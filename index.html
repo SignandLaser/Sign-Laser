@@ -5,29 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
   <link href="style.css" rel="stylesheet"> <style>
-    <style>
-    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
-    .fade-in.in-view { opacity: 1; transform: translateY(0); }
-    .mobile-menu {
-      transform-origin: top;
-      transform: scaleY(0);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      opacity: 0;
-    }
-    .mobile-menu.open {
-      transform: scaleY(1);
-      opacity: 1;
-    }
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease-in-out;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-   </style>
+@import url("../OneDrive/Desktop/Test Foldder/style.css");
+</style>
 
 </head>
 
@@ -91,161 +70,10 @@
   <!-- Products Section -->
   <section id="products" class="py-16 px-6 bg-white">
     <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
-    <div id="product-container" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-  <div id="loading" class="text-center col-span-3 text-lg">Loading products...</div>
-
-    <!-- Product 1 -->
-    <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-      <img src="https://via.placeholder.com/300x200.png?text=Product+1" alt="Product 1" class="w-full h-48 object-cover rounded-md mb-4" />
-      <h3 class="text-xl font-bold mb-2">Wooden Wall Art</h3>
-      <p class="text-gray-700 mb-4">Elegant laser-cut wall art to elevate your interiors.</p>
-      <p class="text-lg font-semibold text-blue-600">₹899</p>
-      <div class="mt-4">
-        <label class="block mb-1">Buying Options:</label>
-        <select id="payment1" class="w-full border rounded p-2 mb-3">
-          <option>Order via WhatsApp</option>
-          <option>Order via Website</option>
-          <option>Buy on Amazon</option>
-        </select>
-        <button onclick="handleOrder('payment1')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-      </div>
-    </div>
-
-    <!-- Product 2 -->
-    <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-      <img src="https://via.placeholder.com/300x200.png?text=Product+2" alt="Product 2" class="w-full h-48 object-cover rounded-md mb-4" />
-      <h3 class="text-xl font-bold mb-2">Custom Nameplate</h3>
-      <p class="text-gray-700 mb-4">Personalized nameplates perfect for homes or offices.</p>
-      <p class="text-lg font-semibold text-blue-600">₹499</p>
-      <div class="mt-4">
-        <label class="block mb-1">Buying Options:</label>
-        <select id="payment2" class="w-full border rounded p-2 mb-3">
-          <option>Order via WhatsApp</option>
-          <option>Order via Website</option>
-          <option>Buy on Amazon</option>
-        </select>
-        <button onclick="handleOrder('payment2')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-      </div>
-    </div>
-
-    <!-- Product 3 -->
-    <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-      <img src="https://via.placeholder.com/300x200.png?text=Product+3" alt="Product 3" class="w-full h-48 object-cover rounded-md mb-4" />
-      <h3 class="text-xl font-bold mb-2">Wooden Coasters (Set of 4)</h3>
-      <p class="text-gray-700 mb-4">Stylish and durable laser-engraved wooden coasters.</p>
-      <p class="text-lg font-semibold text-blue-600">₹299</p>
-      <div class="mt-4">
-        <label class="block mb-1">Buying Options:</label>
-        <select id="payment3" class="w-full border rounded p-2 mb-3">
-          <option>Order via WhatsApp</option>
-          <option>Order via Website</option>
-          <option>Buy on Amazon</option>
-        </select>
-        <button onclick="handleOrder('payment3')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-      </div>
-    </div>
-
-    <!-- Product 4 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Tree+Wall+Art" alt="Tree Wall Art" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Tree of Life Wall Art</h3>
-  <p class="text-gray-700 mb-4">Symbolic tree design crafted with precision in wood.</p>
-  <p class="text-lg font-semibold text-blue-600">₹1,299</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment4" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment4')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-
-<!-- Product 5 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Wood+Tree+Panel" alt="Wood Tree Panel" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Laser Tree Panel</h3>
-  <p class="text-gray-700 mb-4">Decorative wooden panel featuring an intricate tree silhouette.</p>
-  <p class="text-lg font-semibold text-blue-600">₹749</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment5" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment5')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-
-<!-- Product 6 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Minimal+Tree+Design" alt="Minimal Tree Design" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Minimal Tree Décor</h3>
-  <p class="text-gray-700 mb-4">A simple and clean laser-cut tree perfect for modern spaces.</p>
-  <p class="text-lg font-semibold text-blue-600">₹599</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment6" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment6')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-
-<!-- Product 7 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Tree+Name+Plate" alt="Tree Name Plate" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Tree Engraved Name Plate</h3>
-  <p class="text-gray-700 mb-4">A personalized name plate featuring a beautiful tree motif.</p>
-  <p class="text-lg font-semibold text-blue-600">₹649</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment7" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment7')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-
-<!-- Product 8 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Hanging+Tree+Art" alt="Hanging Tree Art" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Hanging Tree Artwork</h3>
-  <p class="text-gray-700 mb-4">Wall hanging laser-cut tree art to bring nature indoors.</p>
-  <p class="text-lg font-semibold text-blue-600">₹899</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment8" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment8')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-
-<!-- Product 9 -->
-<div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105">
-  <img src="https://via.placeholder.com/300x200.png?text=Family+Tree+Frame" alt="Family Tree Frame" class="w-full h-48 object-cover rounded-md mb-4" />
-  <h3 class="text-xl font-bold mb-2">Family Tree Photo Frame</h3>
-  <p class="text-gray-700 mb-4">Display cherished memories with this elegant family tree frame.</p>
-  <p class="text-lg font-semibold text-blue-600">₹1,199</p>
-  <div class="mt-4">
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment9" class="w-full border rounded p-2 mb-3">
-      <option>Order via WhatsApp</option>
-      <option>Order via Website</option>
-      <option>Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment9')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
+    
+	
+		
+   
       
 <div id="dynamic-products" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12"></div>
 
