@@ -140,13 +140,13 @@
 <script>
 	// 🔧 STEP 1 — Add this function to convert Google Drive file links
   function convertDriveLink(url) {
-    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)\//);
-    if (match) {
-      const fileId = match[1];
-      return `https://drive.google.com/uc?export=view&id=${fileId}`;
-    }
-    return url;
+  const match = url && url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) {
+    const fileId = match[1];
+    return `https://lh3.googleusercontent.com/d/${fileId}=w1200`; // Googleusercontent domain
   }
+  return "https://via.placeholder.com/300x200?text=Image+Missing";
+}
   async function fetchProducts() {
     const res = await fetch("https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec");
     const products = await res.json();
