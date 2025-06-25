@@ -150,14 +150,15 @@
   if (selected === "whatsapp") {
     const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
     const encodedMsg = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/918281257256?text=${encodedMsg}`;
+    const whatsappURL = `https://api.whatsapp.com/send?phone=918281257256&text=${encodedMsg}`;
 
-    // ✅ MOBILE SAFE
+    // ✅ Full Compatibility (force opens in same tab, works on mobile apps)
     window.location.href = whatsappURL;
   } else {
     window.open(selected, "_blank");
   }
 }
+
   const faders = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
