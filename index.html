@@ -28,6 +28,12 @@
     flex-direction: column;
     justify-content: space-between;
   }
+	#mobile-menu {
+  transform-origin: top right;
+}
+.scale-y-100 {
+  transform: scaleY(1);
+}
 </style>
 
 </head>
@@ -35,42 +41,41 @@
 <body class="bg-gray-100 text-gray-900 font-sans pt-24">
 
   <!-- Header Section -->
-  <header class="flex justify-between items-center p-4 bg-white shadow fixed w-full top-0 z-50">
-    <div class="flex items-center space-x-3">
-      <img src="logo.png" alt="Logo" class="h-20 w-auto">
-      <div class="text-2xl font-bold text-slate-800">Sign & Laser</div>
-    </div>
-    <div class="flex items-center space-x-6">
-      <nav class="flex space-x-12 text-sm font-semibold text-gray-700">
-        <div class="hidden md:flex">
-          <a href="#" onclick="location.reload();" class="hover:text-yellow-500">Home</a>
-          <a href="#" class="hover:text-yellow-500">Categories</a>
-          <a href="support.html" class="hover:text-yellow-500">Support</a>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-     <!-- Updated mobile menu container -->
-<div class="md:hidden relative">
-  <button id="menu-btn" class="p-2 rounded-full hover:bg-gray-100">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  </button>
-  <div id="mobile-menu" class="mobile-menu absolute top-14 right-0 w-60 py-4 px-4 rounded-2xl shadow-2xl backdrop-blur-md bg-white/90 z-50 text-center space-y-2 scale-y-0 opacity-0 pointer-events-none transition-all duration-300 origin-top">
-    <a href="#" onclick="location.reload();" class="block py-2 text-gray-800 font-semibold rounded-lg hover:bg-gray-100">Home</a>
-    <a href="#categories" class="block py-2 text-gray-800 font-semibold rounded-lg hover:bg-gray-100">Categories</a>
-    <a href="support.html" class="block py-2 text-gray-800 font-semibold rounded-lg hover:bg-gray-100">Support</a>
+<header class="flex justify-between items-center px-4 py-3 bg-white shadow fixed w-full top-0 z-50">
+  <!-- Logo & Brand -->
+  <div class="flex items-center space-x-3">
+    <img src="logo.png" alt="Logo" class="h-20 w-auto">
+    <div class="text-2xl font-bold text-slate-800">Sign & Laser</div>
   </div>
-</div>
 
-      </nav>
-      <button onclick="window.location.href='login.html'" class="bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full transition shadow-md flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </button>
+  <!-- Desktop Nav -->
+  <nav class="hidden md:flex items-center space-x-8 font-semibold text-gray-700">
+    <a href="#" onclick="location.reload();" class="hover:text-yellow-500">Home</a>
+    <a href="#categories" class="hover:text-yellow-500">Categories</a>
+    <a href="support.html" class="hover:text-yellow-500">Support</a>
+    <button onclick="window.location.href='login.html'" class="ml-4 bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full shadow-md flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Hamburger -->
+  <div class="md:hidden relative">
+    <button id="menu-btn" class="p-2 rounded-full hover:bg-gray-100">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <div id="mobile-menu" class="hidden absolute top-14 right-2 w-56 rounded-xl bg-white shadow-xl text-center py-4 space-y-3 z-50">
+      <a href="#" onclick="location.reload();" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Home</a>
+      <a href="#categories" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Categories</a>
+      <a href="support.html" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Support</a>
+      <a href="login.html" class="block text-yellow-600 font-medium hover:bg-yellow-100 py-2 rounded">Login</a>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- Hero Section -->
   <section class="min-h-[80vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white p-8">
@@ -234,6 +239,40 @@
 }
 
   fetchProducts();
+</script>
+<script>
+  // Toggle mobile menu
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuBtn.addEventListener("click", () => {
+    const isOpen = mobileMenu.classList.contains("scale-y-100");
+    if (isOpen) {
+      mobileMenu.classList.remove("scale-y-100", "opacity-100", "pointer-events-auto");
+      mobileMenu.classList.add("scale-y-0", "opacity-0", "pointer-events-none");
+    } else {
+      mobileMenu.classList.remove("scale-y-0", "opacity-0", "pointer-events-none");
+      mobileMenu.classList.add("scale-y-100", "opacity-100", "pointer-events-auto");
+    }
+  });
+</script>
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuBtn.addEventListener("click", function () {
+      mobileMenu.classList.toggle("hidden");
+    });
+  });
 </script>
 
 </body>
