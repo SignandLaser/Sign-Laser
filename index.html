@@ -6,6 +6,29 @@
   <title>Sign and Laser</title>
   <link href="style.css" rel="stylesheet"> <style>
 </style>
+<style>
+  /* Ensure cards have the same height */
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-image {
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Crop instead of stretch */
+    width: 100%;
+    border-radius: 0.75rem; /* match rounded-xl */
+  }
+
+  /* Ensure description and options expand to fill space evenly */
+  .product-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+</style>
 
 </head>
 
@@ -154,22 +177,26 @@
 
     products.forEach((p, i) => {
       const card = `
-        <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in">
-          <img src="${convertDriveLink(p.image)}" alt="${p.name}" onerror="this.style.border='3px solid red'; this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'; console.error('Image failed:', this.src);" />
-          <h3 class="text-xl font-bold mb-2">${p.name}</h3>
-          <p class="text-gray-700 mb-4">${p.description}</p>
-          <p class="text-lg font-semibold text-blue-600">₹${p.price}</p>
-          <div class="mt-4">
-            <label class="block mb-1">Buying Options:</label>
-            <select id="payment${i}" class="w-full border rounded p-2 mb-3">
-              <option value="whatsapp">Order via WhatsApp</option>
-              <option value="/payment.html?name=${encodeURIComponent(p.name)}">Order via Website</option>
-              <option value="${p.amazon}">Buy on Amazon</option>
-            </select>
-            <button onclick="handleOrder('payment${i}')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-          </div>
-        </div>
-      `;
+        <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
+    <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.style.border='3px solid red'; this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
+    <div class="product-content mt-4 flex flex-col justify-between h-full">
+  <div>
+    <h3 class="text-xl font-bold mb-2">${p.name}</h3>
+    <p class="text-gray-700 mb-4">${p.description}</p>
+  </div>
+  <div>
+    <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
+    <label class="block mb-1">Buying Options:</label>
+    <select id="payment${i}" class="w-full border rounded p-2 mb-3">
+      <option value="whatsapp">Order via WhatsApp</option>
+      <option value="/payment.html?name=${encodeURIComponent(p.name)}">Order via Website</option>
+      <option value="${p.amazon}">Buy on Amazon</option>
+    </select>
+    <button onclick="handleOrder('payment${i}')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
+  </div>
+</div>
+</div>
+`;
       console.log('Image for product ' + i + ':', convertDriveLink(p.image));    
       container.innerHTML += card;
     });
