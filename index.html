@@ -139,15 +139,25 @@
 <!-- Scripts -->
 <script>
   function handleOrder(selectId) {
-    const selected = document.getElementById(selectId).value;
-    if (selected === "Order via WhatsApp") {
-      window.open("https://wa.me/918281257256", "_blank");
-    } else if (selected === "Buy on Amazon") {
-      window.open("https://www.amazon.in/storefront?me=A1NG6BW0OIFJKU&ref_=ssf_share", "_blank");
-    } else if (selected === "Order via Website") {
-      window.location.href = "payment.html";
-    }
+  const select = document.getElementById(selectId);
+  const selected = select.value;
+
+  const card = select.closest("div.bg-gray-50");
+  const name = card.querySelector("h3").innerText;
+  const price = card.querySelector("p.text-lg").innerText.replace("₹", "");
+  const image = card.querySelector("img").src;
+
+  if (selected === "whatsapp") {
+    const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
+    const encodedMsg = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/918281257256?text=${encodedMsg}`;
+
+    // ✅ MOBILE SAFE
+    window.location.href = whatsappURL;
+  } else {
+    window.open(selected, "_blank");
   }
+}
   const faders = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
