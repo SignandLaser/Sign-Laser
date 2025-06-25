@@ -162,7 +162,7 @@
           <div class="mt-4">
             <label class="block mb-1">Buying Options:</label>
             <select id="payment${i}" class="w-full border rounded p-2 mb-3">
-              <option value="${p.whatsapp}">Order via WhatsApp</option>
+              <option value="whatsapp">Order via WhatsApp</option>
               <option value="/payment.html?name=${encodeURIComponent(p.name)}">Order via Website</option>
               <option value="${p.amazon}">Buy on Amazon</option>
             </select>
@@ -176,9 +176,24 @@
   }
 
   function handleOrder(selectId) {
-    const link = document.getElementById(selectId).value;
-    window.open(link, "_blank");
+  const select = document.getElementById(selectId);
+  const selected = select.value;
+
+  // Get the product card element (go up the DOM to find the correct card)
+  const card = select.closest("div.bg-gray-50");
+  const name = card.querySelector("h3").innerText;
+  const price = card.querySelector("p.text-lg").innerText.replace("₹", "");
+  const image = card.querySelector("img").src;
+
+  if (selected === "whatsapp") {
+    const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
+    const encodedMsg = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/918281257256?text=${encodedMsg}`;
+    window.open(whatsappURL, "_blank");
+  } else {
+    window.open(selected, "_blank");
   }
+}
 
   fetchProducts();
 </script>
