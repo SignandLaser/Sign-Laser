@@ -4,70 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
-  <link href="style.css" rel="stylesheet"> <style>
-</style>
-<style>
-  /* Ensure cards have the same height */
-  .product-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+  <link href="style.css" rel="stylesheet" />
 
-  .product-image {
-    height: 200px; /* Fixed height */
-    object-fit: cover; /* Crop instead of stretch */
-    width: 100%;
-    border-radius: 0.75rem; /* match rounded-xl */
-  }
+  <style>
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
 
-  /* Ensure description and options expand to fill space evenly */
-  .product-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-	#mobile-menu {
-  transform-origin: top right;
-}
-.scale-y-100 {
-  transform: scaleY(1);
-}
-</style>
+    .product-image {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+      border-radius: 0.75rem;
+    }
 
+    .product-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #mobile-menu {
+      transform-origin: top right;
+    }
+
+    .scale-y-100 {
+      transform: scaleY(1);
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900 font-sans pt-24">
 
-  <!-- Header Section -->
+<!-- Header -->
 <header class="flex justify-between items-center px-4 py-3 bg-white shadow fixed w-full top-0 z-50">
-  <!-- Logo & Brand -->
   <div class="flex items-center space-x-3">
     <img src="logo.png" alt="Logo" class="h-20 w-auto">
     <div class="text-2xl font-bold text-slate-800">Sign & Laser</div>
   </div>
 
-  <!-- Desktop Nav -->
   <nav class="hidden md:flex items-center space-x-8 font-semibold text-gray-700">
     <a href="#" onclick="location.reload();" class="hover:text-yellow-500">Home</a>
     <a href="#categories" class="hover:text-yellow-500">Categories</a>
     <a href="/Sign-Laser/Support" class="hover:text-yellow-500">Support</a>
     <button onclick="window.location.href='login.html'" class="ml-4 bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full shadow-md flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    </button>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+</button>
+
   </nav>
 
-  <!-- Mobile Hamburger -->
   <div class="md:hidden relative">
     <button id="menu-btn" class="p-2 rounded-full hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
-
     <div id="mobile-menu" class="hidden absolute top-14 right-2 w-56 rounded-xl bg-white shadow-xl text-center py-4 space-y-3 z-50">
       <a href="#" onclick="location.reload();" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Home</a>
       <a href="#categories" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Categories</a>
@@ -77,34 +73,33 @@
   </div>
 </header>
 
-  <!-- Hero Section -->
-  <section class="min-h-[80vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white p-8">
-    <h1 class="text-5xl md:text-6xl font-bold fade-in">Sign and Laser</h1>
-    <p class="mt-4 text-lg md:text-xl fade-in" style="transition-delay: 0.2s;">CNC-crafted art, décor, and utility products</p>
-    <a href="#products" class="mt-8 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-full transition fade-in" style="transition-delay: 0.4s;">View Products</a>
-  </section>
+<!-- Hero -->
+<section class="min-h-[80vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white p-8">
+  <h1 class="text-5xl md:text-6xl font-bold fade-in">Sign and Laser</h1>
+  <p class="mt-4 text-lg md:text-xl fade-in">CNC-crafted art, décor, and utility products</p>
+  <a href="#products" class="mt-8 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-full fade-in">View Products</a>
+</section>
 
-  <!-- Search Section -->
-  <div class="w-full flex flex-col items-center px-4 mb-8">
-    <div class="relative w-full max-w-md mt-6 mb-4">
-      <input type="text" placeholder="Search products..." class="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-      <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" /></svg>
-      </div>
-    </div>
+<!-- Search -->
+<div class="w-full flex flex-col items-center px-4 mb-8">
+  <div class="relative w-full max-w-md mt-6 mb-4">
+    <input id="search-input" type="text" placeholder="Search products..." class="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+    <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+  </svg>
+</div>
   </div>
+</div>
 
-  <!-- Products Section -->
-  <section id="products" class="py-16 px-6 bg-white">
-    <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
-    
+<!-- Products -->
+<section id="products" class="py-16 px-6 bg-white">
+  <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
+  <div id="loader" class="flex justify-center my-12">
+    <div class="w-10 h-10 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
 	
-		
-   
-      
-<div id="dynamic-products" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12"></div>
-
-  </div>
+  <div id="dynamic-products" class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-12"></div>
 </section>
 
 <!-- Footer -->
@@ -114,9 +109,7 @@
       <h4 class="font-bold text-lg mb-2">Contact Us</h4>
       <p>Email: signandlaser2021@gmail.com</p>
       <p>Phone: +91 82812 57256</p>
-      </p>
     </div>
-    
     <div>
       <h4 class="font-bold text-lg mb-2">Other Support</h4>
       <div class="flex space-x-4 mt-2">
@@ -128,150 +121,95 @@
   </div>
 </footer>
 
-<!-- Login Modal -->
-<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-  <div class="bg-white p-6 rounded-lg max-w-sm w-full">
-    <h2 class="text-xl font-bold mb-4">Login</h2>
-    <input type="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" />
-    <input type="password" placeholder="Password" class="w-full mb-4 p-2 border rounded" />
-    <div class="flex justify-end space-x-2">
-      <button onclick="document.getElementById('loginModal').classList.add('hidden')" class="bg-gray-300 px-4 py-2 rounded">Cancel</button>
-      <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded">Login</button>
-    </div>
-  </div>
-</div>
-
 <!-- Scripts -->
 <script>
-  function handleOrder(selectId) {
-  const select = document.getElementById(selectId);
-  const selected = select.value;
+  let allProducts = []; // Global product storage
 
-  const card = select.closest("div.bg-gray-50");
-  const name = card.querySelector("h3").innerText;
-  const price = card.querySelector("p.text-lg").innerText.replace("₹", "");
-  const image = card.querySelector("img").src;
-
-  if (selected === "whatsapp") {
-    const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
-    const encodedMsg = encodeURIComponent(message);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=918281257256&text=${encodedMsg}`;
-
-    // ✅ Full Compatibility (force opens in same tab, works on mobile apps)
-    window.location.href = whatsappURL;
-  } else {
-    window.open(selected, "_blank");
-  }
-}
-
-  const faders = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  faders.forEach(fader => observer.observe(fader));
-</script>
-	
-<script>
-	// 🔧 STEP 1 — Add this function to convert Google Drive file links
   function convertDriveLink(url) {
-  const match = url && url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if (match) {
-    const fileId = match[1];
-    return `https://lh3.googleusercontent.com/d/${fileId}=w1200`; // Googleusercontent domain
+    const match = url && url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) return `https://lh3.googleusercontent.com/d/${match[1]}=w1200`;
+    return "https://via.placeholder.com/300x200?text=Image+Missing";
   }
-  return "https://via.placeholder.com/300x200?text=Image+Missing";
-}
+
   async function fetchProducts() {
     const res = await fetch("https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec");
     const products = await res.json();
+	const container = document.getElementById("dynamic-products");
+    const loader = document.getElementById("loader");
+    loader.style.display = "none"; // hide spinner after loading
+    allProducts = products;
+    renderProducts(allProducts);
+  }
+
+  function renderProducts(products) {
     const container = document.getElementById("dynamic-products");
+    const loader = document.getElementById("loader");
+    if (loader) loader.style.display = "none";
+    container.innerHTML = ""; // Clear previous
 
     products.forEach((p, i) => {
       const card = `
         <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
-    <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.style.border='3px solid red'; this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
-    <div class="product-content mt-4 flex flex-col justify-between h-full">
-  <div>
-    <h3 class="text-xl font-bold mb-2">${p.name}</h3>
-    <p class="text-gray-700 mb-4">${p.description}</p>
-  </div>
-  <div>
-    <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
-    <label class="block mb-1">Buying Options:</label>
-    <select id="payment${i}" class="w-full border rounded p-2 mb-3">
-      <option value="whatsapp">Order via WhatsApp</option>
-      <option value="/payment.html?name=${encodeURIComponent(p.name)}">Order via Website</option>
-      <option value="${p.amazon}">Buy on Amazon</option>
-    </select>
-    <button onclick="handleOrder('payment${i}')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-  </div>
-</div>
-</div>
-`;
-      console.log('Image for product ' + i + ':', convertDriveLink(p.image));    
+          <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
+          <div class="product-content mt-4 flex flex-col justify-between h-full">
+            <div>
+              <h3 class="text-xl font-bold mb-2">${p.name}</h3>
+              <p class="text-gray-700 mb-4">${p.description}</p>
+            </div>
+            <div>
+              <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
+              <label class="block mb-1">Buying Options:</label>
+              <select id="payment${i}" class="w-full border rounded p-2 mb-3">
+                <option value="whatsapp">Order via WhatsApp</option>
+                <option value="/payment.html?name=${encodeURIComponent(p.name)}">Order via Website</option>
+                <option value="${p.amazon}">Buy on Amazon</option>
+              </select>
+              <button onclick="handleOrder('payment${i}')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
+            </div>
+          </div>
+        </div>`;
       container.innerHTML += card;
     });
   }
 
   function handleOrder(selectId) {
-  const select = document.getElementById(selectId);
-  const selected = select.value;
+    const select = document.getElementById(selectId);
+    const selected = select.value;
+    const card = select.closest("div.bg-gray-50");
+    const name = card.querySelector("h3").innerText;
+    const price = card.querySelector("p.text-lg").innerText.replace("₹", "");
+    const image = card.querySelector("img").src;
 
-  // Get the product card element (go up the DOM to find the correct card)
-  const card = select.closest("div.bg-gray-50");
-  const name = card.querySelector("h3").innerText;
-  const price = card.querySelector("p.text-lg").innerText.replace("₹", "");
-  const image = card.querySelector("img").src;
-
-  if (selected === "whatsapp") {
-    const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
-    const encodedMsg = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/918281257256?text=${encodedMsg}`;
-    window.open(whatsappURL, "_blank");
-  } else {
-    window.open(selected, "_blank");
-  }
-}
-
-  fetchProducts();
-</script>
-<script>
-  // Toggle mobile menu
-  const menuBtn = document.getElementById("menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  menuBtn.addEventListener("click", () => {
-    const isOpen = mobileMenu.classList.contains("scale-y-100");
-    if (isOpen) {
-      mobileMenu.classList.remove("scale-y-100", "opacity-100", "pointer-events-auto");
-      mobileMenu.classList.add("scale-y-0", "opacity-0", "pointer-events-none");
+    if (selected === "whatsapp") {
+      const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
+      const encodedMsg = encodeURIComponent(message);
+      window.open(`https://wa.me/918281257256?text=${encodedMsg}`, "_blank");
     } else {
-      mobileMenu.classList.remove("scale-y-0", "opacity-0", "pointer-events-none");
-      mobileMenu.classList.add("scale-y-100", "opacity-100", "pointer-events-auto");
+      window.open(selected, "_blank");
     }
-  });
-</script>
-<script>
-  const menuBtn = document.getElementById("menu-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
+  }
 
-  menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
+  // Search Handler
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("search-input");
 
-    menuBtn.addEventListener("click", function () {
-      mobileMenu.classList.toggle("hidden");
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        const filtered = allProducts.filter(p =>
+          p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+        );
+        renderProducts(filtered);
+      });
+    }
+
+    // Mobile menu toggle
+    document.getElementById("menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
     });
+
+    // Fetch on load
+    fetchProducts();
   });
 </script>
 
