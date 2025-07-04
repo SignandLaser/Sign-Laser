@@ -135,14 +135,44 @@
     const form = document.getElementById("orderForm");
     const downloadBtn = document.getElementById("downloadBtn");
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      // Simulate confirmation
-      alert("✅ Order confirmed!\nYou can now download the order summary.");
-      downloadBtn.classList.remove("hidden");
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const product = document.getElementById("product").value;
+  const quantity = document.getElementById("quantity").value;
+  const price = document.getElementById("price").value;
+  const address = document.getElementById("address").value;
+  const total = price * quantity;
+
+  const data = {
+    name,
+    phone,
+    product,
+    quantity,
+    price,
+    total,
+    address
+  };
+
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbyxjvM2wXyynpqrs3P5p2UaHOhl2qnnT7FAc75cmZaFBR5filhJyEJF3w5OTIp0rve8/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
+    alert("✅ Order placed successfully!");
+    window.location.href = "/Sign-Laser/payment.html"; // You can change this to your success page
+  } catch (err) {
+    alert("❌ Failed to place order. Please try again.");
+    console.error(err);
+  }
+});
+    
     function downloadSummary() {
       const name = document.getElementById("name").value;
       const phone = document.getElementById("phone").value;
