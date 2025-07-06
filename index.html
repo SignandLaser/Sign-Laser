@@ -158,6 +158,8 @@
 <script>
   let allProducts = []; // Global product storage
   let cart = []; // To store cart items
+  const cartCounts = {}; // product index -> count
+  let currentFilter = 'all';
 
 
   function convertDriveLink(url) {
@@ -275,7 +277,8 @@ function updateCartCount() {
         renderProducts(filtered);
       });
     }
-	  function filterProducts(event, category) {
+	  
+function filterProducts(event, category) {
   currentFilter = category;
 
   // Update active button
@@ -317,6 +320,7 @@ function decreaseCart(index) {
   updateCartCount();
   renderProducts(allProducts); // refresh UI to hide if zero
 }
+	
 </script>
 <style>
 .category-btn.active {
