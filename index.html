@@ -158,8 +158,6 @@
 <script>
   let allProducts = []; // Global product storage
   let cart = []; // To store cart items
-  const cartCounts = {}; // product index -> count
-  let currentFilter = 'all';
 
 
   function convertDriveLink(url) {
@@ -248,7 +246,7 @@
       const encodedMsg = encodeURIComponent(message);
       window.open(`https://wa.me/918281257256?text=${encodedMsg}`, "_blank");
     } else {
-      window.location.href = selected;
+      window.open(selected, "_blank");
     }
   }
 	
@@ -277,18 +275,9 @@ function updateCartCount() {
         renderProducts(filtered);
       });
     }
-document.getElementById("header-cart-count").textContent = "0";
-document.getElementById("mobile-cart-count").textContent = "0";
-	  
- // Mobile menu toggle
-    document.getElementById("menu-btn").addEventListener("click", () => {
-    document.getElementById("mobile-menu").classList.toggle("hidden");
-    });
+	  function filterProducts(event, category) {
+  currentFilter = category;
 
-// Fetch on load
-    fetchProducts();
-  });
-	  
   // Update active button
   document.querySelectorAll('.category-btn').forEach(btn => {
     btn.classList.remove('active');
@@ -301,21 +290,16 @@ document.getElementById("mobile-cart-count").textContent = "0";
   const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
   renderProducts(filtered);
 }
-			    
-function filterProducts(event, category) {
-  currentFilter = category;
-// Update active button
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.classList.remove('active');
-    btn.classList.add('text-gray-600');
-  });
-  event.target.classList.add('active');
-  event.target.classList.remove('text-gray-600');
 
-  // Filter and render products
-  const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
-  renderProducts(filtered);
-}
+    // Mobile menu toggle
+    document.getElementById("menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+
+    // Fetch on load
+    fetchProducts();
+  });
+const cartCounts = {}; // product index -> count
 
 function increaseCart(index, product) {
   if (!cartCounts[index]) cartCounts[index] = 0;
@@ -329,14 +313,10 @@ function decreaseCart(index) {
   if (!cartCounts[index]) return;
   cartCounts[index]--;
   if (cartCounts[index] < 0) cartCounts[index] = 0;
-  // Remove one matching product from cart
-  const productName = allProducts[index].name;
-  const idx = cart.findIndex(p => p.name === productName);
-  if (idx > -1) cart.splice(idx, 1);
+  cart.pop(); // Optional: you may improve this logic later
   updateCartCount();
-  renderProducts(allProducts);
+  renderProducts(allProducts); // refresh UI to hide if zero
 }
-	
 </script>
 <style>
 .category-btn.active {
