@@ -248,7 +248,7 @@
       const encodedMsg = encodeURIComponent(message);
       window.open(`https://wa.me/918281257256?text=${encodedMsg}`, "_blank");
     } else {
-      window.open(selected, "_blank");
+      window.location.href = selected;
     }
   }
 	
@@ -277,6 +277,17 @@ function updateCartCount() {
         renderProducts(filtered);
       });
     }
+document.getElementById("header-cart-count").textContent = "0";
+document.getElementById("mobile-cart-count").textContent = "0";
+	  
+ // Mobile menu toggle
+    document.getElementById("menu-btn").addEventListener("click", () => {
+    document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+
+// Fetch on load
+    fetchProducts();
+  });
 	  
   // Update active button
   document.querySelectorAll('.category-btn').forEach(btn => {
@@ -293,15 +304,18 @@ function updateCartCount() {
 			    
 function filterProducts(event, category) {
   currentFilter = category;
-
-    // Mobile menu toggle
-    document.getElementById("menu-btn").addEventListener("click", () => {
-      document.getElementById("mobile-menu").classList.toggle("hidden");
-    });
-
-    // Fetch on load
-    fetchProducts();
+// Update active button
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.classList.add('text-gray-600');
   });
+  event.target.classList.add('active');
+  event.target.classList.remove('text-gray-600');
+
+  // Filter and render products
+  const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+  renderProducts(filtered);
+}
 
 function increaseCart(index, product) {
   if (!cartCounts[index]) cartCounts[index] = 0;
