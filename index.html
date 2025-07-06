@@ -278,9 +278,6 @@ function updateCartCount() {
       });
     }
 	  
-function filterProducts(event, category) {
-  currentFilter = category;
-
   // Update active button
   document.querySelectorAll('.category-btn').forEach(btn => {
     btn.classList.remove('active');
@@ -293,6 +290,9 @@ function filterProducts(event, category) {
   const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
   renderProducts(filtered);
 }
+			    
+function filterProducts(event, category) {
+  currentFilter = category;
 
     // Mobile menu toggle
     document.getElementById("menu-btn").addEventListener("click", () => {
@@ -302,7 +302,6 @@ function filterProducts(event, category) {
     // Fetch on load
     fetchProducts();
   });
-const cartCounts = {}; // product index -> count
 
 function increaseCart(index, product) {
   if (!cartCounts[index]) cartCounts[index] = 0;
@@ -316,9 +315,12 @@ function decreaseCart(index) {
   if (!cartCounts[index]) return;
   cartCounts[index]--;
   if (cartCounts[index] < 0) cartCounts[index] = 0;
-  cart.pop(); // Optional: you may improve this logic later
+  // Remove one matching product from cart
+  const productName = allProducts[index].name;
+  const idx = cart.findIndex(p => p.name === productName);
+  if (idx > -1) cart.splice(idx, 1);
   updateCartCount();
-  renderProducts(allProducts); // refresh UI to hide if zero
+  renderProducts(allProducts);
 }
 	
 </script>
