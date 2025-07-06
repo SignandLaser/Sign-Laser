@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
   <link href="style.css" rel="stylesheet" />
-
   <style>
     .product-card {
       display: flex;
@@ -50,6 +49,11 @@
     <a href="#" onclick="location.reload();" class="hover:text-yellow-500">Home</a>
     <a href="#categories" class="hover:text-yellow-500">Categories</a>
     <a href="/Sign-Laser/Support" class="hover:text-yellow-500">Support</a>
+	<a href="javascript:void(0);" onclick="toggleCart()" class="relative flex items-center hover:text-yellow-500">
+  <span class="mr-1">Cart</span>
+  <span id="header-cart-count" class="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-semibold shadow-md rounded-full w-5 h-5 flex items-center justify-center transition duration-300">0</span>
+</a>
+
     <button onclick="window.location.href='login.html'" class="ml-4 bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full shadow-md flex items-center justify-center">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -68,6 +72,11 @@
       <a href="#" onclick="location.reload();" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Home</a>
       <a href="#categories" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Categories</a>
       <a href="/Sign-Laser/Support" class="block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">Support</a>
+	  <a href="javascript:void(0);" onclick="toggleCart()" class="relative block text-gray-800 font-medium hover:bg-gray-100 py-2 rounded">
+  Cart
+  <span id="mobile-cart-count" class="absolute top-1 right-4 bg-yellow-400 text-black text-xs font-semibold shadow-md rounded-full w-5 h-5 flex items-center justify-center">0</span>
+</a>
+
       <a href="login.html" class="block text-yellow-600 font-medium hover:bg-yellow-100 py-2 rounded">Login</a>
     </div>
   </div>
@@ -95,6 +104,18 @@
 <!-- Products -->
 <section id="products" class="py-16 px-6 bg-white">
   <h2 class="text-3xl font-semibold text-center mb-12 fade-in">Our Creations</h2>
+<!-- Category Tabs -->
+<div class="flex justify-center mb-8 fade-in">
+  <div class="bg-white border border-gray-300 shadow-md rounded-full px-3 py-1 sm:px-4 sm:py-2">
+    <div class="flex space-x-1 sm:space-x-2 text-sm sm:text-base font-semibold">
+      <button onclick="filterProducts(event, 'all')" class="category-btn active px-3 py-1 sm:px-5 sm:py-2 rounded-full text-gray-800 hover:bg-yellow-100 transition">All</button>
+      <button onclick="filterProducts(event, 'clocks')" class="category-btn px-3 py-1 sm:px-5 sm:py-2 rounded-full text-gray-600 hover:bg-yellow-100 transition">Clocks</button>
+      <button onclick="filterProducts(event, 'nameboards')" class="category-btn px-3 py-1 sm:px-5 sm:py-2 rounded-full text-gray-600 hover:bg-yellow-100 transition">Name Boards</button>
+      <button onclick="filterProducts(event, 'toppers')" class="category-btn px-3 py-1 sm:px-5 sm:py-2 rounded-full text-gray-600 hover:bg-yellow-100 transition">Cake Toppers</button>
+    </div>
+  </div>
+</div>
+
   <div id="loader" class="flex justify-center my-12">
     <div class="w-10 h-10 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
   </div>
@@ -113,10 +134,22 @@
     <div>
       <h4 class="font-bold text-lg mb-2">Other Support</h4>
       <div class="flex space-x-4 mt-2">
-        <a href="https://wa.me/918281257256" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" class="h-6" alt="WhatsApp"></a>
-        <a href="https://www.instagram.com/sign_and_laser.__?igsh=dGE0eWFkMml1ZnRy" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="h-6" alt="Instagram"></a>
-        <a href="https://www.facebook.com/singandlaser" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" class="h-6" alt="Facebook"></a>
-      </div>
+  <!-- WhatsApp (new) -->
+  <a href="https://wa.me/918281257256" target="_blank" aria-label="WhatsApp">
+    <img src="https://cdn-icons-png.flaticon.com/512/15707/15707820.png" alt="WhatsApp" class="h-8 w-8 hover:scale-110 transition-transform" />
+  </a>
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/sign_and_laser.__?igsh=dGE0eWFkMml1ZnRy" target="_blank" aria-label="Instagram">
+    <img src="https://cdn-icons-png.flaticon.com/512/15707/15707749.png" alt="Instagram" class="h-8 w-8 hover:scale-110 transition-transform" />
+  </a>
+
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/singandlaser" target="_blank" aria-label="Facebook">
+    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="Facebook" class="h-8 w-8 hover:scale-110 transition-transform" />
+  </a>
+</div>
+
     </div>
   </div>
 </footer>
@@ -124,6 +157,8 @@
 <!-- Scripts -->
 <script>
   let allProducts = []; // Global product storage
+  let cart = []; // To store cart items
+
 
   function convertDriveLink(url) {
     const match = url && url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -142,35 +177,61 @@
   }
 
   function renderProducts(products) {
-    const container = document.getElementById("dynamic-products");
-    const loader = document.getElementById("loader");
-    if (loader) loader.style.display = "none";
-    container.innerHTML = ""; // Clear previous
+  const container = document.getElementById("dynamic-products");
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+  container.innerHTML = ""; // Clear previous
 
-    products.forEach((p, i) => {
-      const card = `
-        <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
-          <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
-          <div class="product-content mt-4 flex flex-col justify-between h-full">
-            <div>
-              <h3 class="text-xl font-bold mb-2">${p.name}</h3>
-              <p class="text-gray-700 mb-4">${p.description}</p>
-            </div>
-            <div>
-              <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
-              <label class="block mb-1">Buying Options:</label>
-              <select id="payment${i}" class="w-full border rounded p-2 mb-3">
-                <option value="whatsapp">Order via WhatsApp</option>
-                <option value="/Sign-Laser/Order?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}">Order via Website</option>
-                <option value="${p.amazon}">Buy on Amazon</option>
-              </select>
-              <button onclick="handleOrder('payment${i}')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full">Order</button>
-            </div>
+  products.forEach((p, i) => {
+	if (cartCounts[i] === undefined) cartCounts[i] = 0;
+    const card = `
+      <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
+        <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
+        <div class="product-content mt-4 flex flex-col justify-between h-full">
+          <div>
+            <h3 class="text-xl font-bold mb-2">${p.name}</h3>
+            <p class="text-gray-700 mb-4">${p.description}</p>
           </div>
-        </div>`;
-      container.innerHTML += card;
-    });
-  }
+          <div>
+            <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
+            <label class="block mb-1">Buying Options:</label>
+            <select id="payment${i}" class="w-full border rounded p-2 mb-3">
+              <option value="whatsapp">Order via WhatsApp</option>
+              <option value="/Sign-Laser/Order?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}">Order via Website</option>
+              <option value="${p.amazon}">Buy on Amazon</option>
+            </select>
+            <div class="flex gap-2 items-center">
+  <!-- Order Button: Now w-[70%] -->
+  <button onclick="handleOrder('payment${i}')" class="w-[70%] bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full text-sm font-semibold">
+    Order
+  </button>
+
+  <div class="w-[30%] h-10 bg-blue-600 text-white rounded-full text-sm font-semibold relative overflow-hidden">
+  ${cartCounts[i] > 0
+    ? `<div class='flex items-center justify-between h-full px-2'>
+         <button onclick='decreaseCart(${i})' class='text-lg font-bold'>−</button>
+         <span id='count-${i}' class='text-base font-semibold'>${cartCounts[i]}</span>
+         <button onclick='increaseCart(${i}, ${JSON.stringify(p).replace(/"/g, '&quot;')})' class='text-lg font-bold'>+</button>
+       </div>`
+    : `<div class='flex items-center justify-center h-full'>
+         <button onclick="increaseCart(${i}, ${JSON.stringify(p).replace(/"/g, '&quot;')})" 
+      class="flex items-center justify-center h-full w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 00.9 1.5H19
+          m-12 0a1 1 0 100 2 1 1 0 000-2zm10 0a1 1 0 100 2 1 1 0 000-2z" />
+           </svg>
+         </button>
+       </div>`}
+      </div>
+
+
+
+      </div>`;
+    container.innerHTML += card;
+  });
+}
+
 
   function handleOrder(selectId) {
     const select = document.getElementById(selectId);
@@ -188,6 +249,18 @@
       window.open(selected, "_blank");
     }
   }
+	
+  function addToCart(product) {
+  cart.push(product);
+  updateCartCount();
+}
+
+function updateCartCount() {
+  const count = cart.length;
+  document.getElementById("header-cart-count").textContent = count;
+  document.getElementById("mobile-cart-count").textContent = count;
+}
+
 
   // Search Handler
   document.addEventListener("DOMContentLoaded", () => {
@@ -202,6 +275,21 @@
         renderProducts(filtered);
       });
     }
+	  function filterProducts(event, category) {
+  currentFilter = category;
+
+  // Update active button
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.classList.add('text-gray-600');
+  });
+  event.target.classList.add('active');
+  event.target.classList.remove('text-gray-600');
+
+  // Filter and render products
+  const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+  renderProducts(filtered);
+}
 
     // Mobile menu toggle
     document.getElementById("menu-btn").addEventListener("click", () => {
@@ -211,7 +299,31 @@
     // Fetch on load
     fetchProducts();
   });
-</script>
+const cartCounts = {}; // product index -> count
 
+function increaseCart(index, product) {
+  if (!cartCounts[index]) cartCounts[index] = 0;
+  cartCounts[index]++;
+  cart.push(product);
+  updateCartCount();
+  renderProducts(allProducts); // refresh UI to show - 1 +
+}
+
+function decreaseCart(index) {
+  if (!cartCounts[index]) return;
+  cartCounts[index]--;
+  if (cartCounts[index] < 0) cartCounts[index] = 0;
+  cart.pop(); // Optional: you may improve this logic later
+  updateCartCount();
+  renderProducts(allProducts); // refresh UI to hide if zero
+}
+</script>
+<style>
+.category-btn.active {
+  background-color: #facc15; /* Tailwind yellow-400 */
+  color: black !important;
+}
+</style>
+	
 </body>
 </html>
