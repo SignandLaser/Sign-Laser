@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
-  <link href="style.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .product-card {
       display: flex;
@@ -33,6 +33,11 @@
     .scale-y-100 {
       transform: scaleY(1);
     }
+	  
+	.category-btn.active {
+  background-color: #facc15; /* Tailwind yellow-400 */
+  color: black !important;
+}
   </style>
 </head>
 
@@ -54,7 +59,7 @@
   <span id="header-cart-count" class="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-semibold shadow-md rounded-full w-5 h-5 flex items-center justify-center transition duration-300">0</span>
 </a>
 
-    <button onclick="window.location.href='login.html'" class="ml-4 bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full shadow-md flex items-center justify-center">
+    <button onclick="window.location.href='login.html'" class="ml-4 bg-yellow-500 hover:bg-yellow-600 p-2 rounded-full shadow-md flex items-center justify-center" aria-label="Login">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8.962 8.962 0 0112 15c2.486 0 4.737.992 6.379 2.604M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
   </svg>
@@ -156,6 +161,7 @@
 
 <!-- Scripts -->
 <script>
+  const cartCounts = {}; // product index -> count
   let allProducts = []; // Global product storage
   let cart = []; // To store cart items
 
@@ -172,7 +178,10 @@
 	const container = document.getElementById("dynamic-products");
     const loader = document.getElementById("loader");
     loader.style.display = "none"; // hide spinner after loading
-    allProducts = products;
+    allProducts = products.map(p => ({
+  ...p,
+  category: p.category || 'uncategorized'
+}));
     renderProducts(allProducts);
   }
 
@@ -181,6 +190,15 @@
   const loader = document.getElementById("loader");
   if (loader) loader.style.display = "none";
   container.innerHTML = ""; // Clear previous
+	  
+  function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
   products.forEach((p, i) => {
 	if (cartCounts[i] === undefined) cartCounts[i] = 0;
@@ -189,8 +207,8 @@
         <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
         <div class="product-content mt-4 flex flex-col justify-between h-full">
           <div>
-            <h3 class="text-xl font-bold mb-2">${p.name}</h3>
-            <p class="text-gray-700 mb-4">${p.description}</p>
+            <h3 class="text-xl font-bold mb-2">${escapeHTML(p.name)}</h3>
+            <p class="text-gray-700 mb-4">${escapeHTML(p.description)}</p>
           </div>
           <div>
             <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
@@ -256,9 +274,26 @@
 }
 
 function updateCartCount() {
-  const count = cart.length;
+  const count = Object.values(cartCounts).reduce((sum, qty) => sum + qty, 0);
   document.getElementById("header-cart-count").textContent = count;
   document.getElementById("mobile-cart-count").textContent = count;
+}
+	
+function filterProducts(event, category) {
+  currentFilter = category;
+
+  // Update active button
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.classList.add('text-gray-600');
+  });
+  event.target.classList.add('active');
+  event.target.classList.remove('text-gray-600');
+
+  // Filter and render products
+  const filtered = category === 'all'
+  ? allProducts
+  : allProducts.filter(p => (p.category || 'uncategorized') === category);
 }
 
 
@@ -275,21 +310,7 @@ function updateCartCount() {
         renderProducts(filtered);
       });
     }
-	  function filterProducts(event, category) {
-  currentFilter = category;
-
-  // Update active button
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.classList.remove('active');
-    btn.classList.add('text-gray-600');
-  });
-  event.target.classList.add('active');
-  event.target.classList.remove('text-gray-600');
-
-  // Filter and render products
-  const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
-  renderProducts(filtered);
-}
+	  
 
     // Mobile menu toggle
     document.getElementById("menu-btn").addEventListener("click", () => {
@@ -299,7 +320,19 @@ function updateCartCount() {
     // Fetch on load
     fetchProducts();
   });
-const cartCounts = {}; // product index -> count
+
+	document.addEventListener("click", function (event) {
+  const menu = document.getElementById("mobile-menu");
+  const button = document.getElementById("menu-btn");
+
+  // If mobile menu is visible AND click is outside menu and button
+  if (!menu.classList.contains("hidden") &&
+      !menu.contains(event.target) &&
+      !button.contains(event.target)) {
+    menu.classList.add("hidden");
+  }
+});
+
 
 function increaseCart(index, product) {
   if (!cartCounts[index]) cartCounts[index] = 0;
@@ -311,19 +344,18 @@ function increaseCart(index, product) {
 
 function decreaseCart(index) {
   if (!cartCounts[index]) return;
+
   cartCounts[index]--;
   if (cartCounts[index] < 0) cartCounts[index] = 0;
-  cart.pop(); // Optional: you may improve this logic later
+
+  // 🧠 Remove one instance of this product from the cart
+  const product = allProducts[index];
+  const cartIndex = cart.findIndex(p => p.name === product.name); // Match by unique property
+  if (cartIndex !== -1) cart.splice(cartIndex, 1);
+
   updateCartCount();
-  renderProducts(allProducts); // refresh UI to hide if zero
+  renderProducts(allProducts); // Refresh UI
 }
 </script>
-<style>
-.category-btn.active {
-  background-color: #facc15; /* Tailwind yellow-400 */
-  color: black !important;
-}
-</style>
-	
 </body>
 </html>
