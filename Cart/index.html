@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart</title>
+  <link href="style.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+      margin: 0;
+      padding-bottom: 50px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffe082;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-links a.back-home {
+      background-color: #facc15;
+      color: #1f2937;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-links a.back-home:hover {
+      background-color: #eab308;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      height: 2px;
+      width: 14px;
+      background-color: #fff;
+      border-radius: 3px;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100vh;
+      width: 260px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transition: right 0.4s ease;
+      z-index: 200;
+      padding: 2rem 1.5rem;
+    }
+
+    .mobile-menu.open {
+      right: 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      text-align: left;
+    }
+
+    .mobile-menu .back-home-btn {
+      background-color: #facc15;
+      color: #1f2937;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .cart-container {
+      max-width: 800px;
+      margin: 130px auto 40px;
+      padding: 2rem 2.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 1.5rem;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #ffe082;
+      margin-bottom: 0;
+    }
+
+    .cart-table-wrapper {
+      overflow-x: auto;
+      border-radius: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: left;
+    }
+
+    th {
+      color: #facc15;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    td {
+      color: white;
+      font-size: 0.95rem;
+    }
+
+    .subtotal {
+      text-align: left;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #facc15;
+      margin-top: 0.5rem;
+    }
+
+    .checkout-btn {
+      padding: 0.75rem 1.2rem;
+      border: none;
+      border-radius: 999px;
+      background-color: #facc15;
+      color: #1f2937;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      align-self: flex-end;
+    }
+
+    .checkout-btn:hover {
+      background-color: #eab308;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .cart-container {
+        margin: 100px 1rem 40px;
+        padding: 1.5rem;
+      }
+    }
+	  
+    @media (max-width: 480px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  th, td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .logo-text {
+    font-size: 1.4rem;
+  }
+
+  .subtotal {
+    font-size: 0.9rem;
+  }
+
+  .checkout-btn {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .cart-table-wrapper table {
+    min-width: 450px;
+  }
+
+  .flex.items-center.gap-2 button {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.3rem;
+  }
+
+  .flex.items-center.gap-2 div {
+    font-size: 0.8rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-text">Cart</div>
+    <div class="nav-links">
+      <a href="../index.html" class="back-home">Back to Home</a>
+      <a href="/Sign-Laser/Support">Support</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="javascript:void(0);" onclick="closeMenu()" style="float:right;font-size:1.5rem;font-weight:bold">&times;</a>
+    <br><br>
+    <a href="../index.html" class="back-home-btn">Back to Home</a>
+    <a href="/Sign-Laser/Support">Support</a>
+  </div>
+
+  <div class="cart-container">
+    <h2><span style="font-size:2.4rem;font-weight:900">🛒 Your Cart</span></h2>
+
+    <div class="cart-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
+    </div>
+
+    <div class="subtotal" style="display: none;"></div>
+    <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+
+<script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.add("open");
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      document.getElementById("mobileMenu").classList.remove("open");
+      document.body.style.overflow = 'auto';
+    }
+
+    window.addEventListener("click", function(e) {
+      const menu = document.getElementById("mobileMenu");
+      if (!menu.contains(e.target) && !e.target.closest(".hamburger")) {
+        closeMenu();
+      }
+    });
+</script>
+<script>
+
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+	console.log("Cart Items:", cart);
+    const tbody = document.getElementById("cart-body");
+    const subtotalEl = document.querySelector(".subtotal");
+    const checkoutBtn = document.querySelector(".checkout-btn");
+
+    if (cart.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center py-6 text-lg text-yellow-300">Your cart is empty 🛒</td>
+        </tr>`;
+      subtotalEl.style.display = "none";
+      checkoutBtn.style.display = "none";
+      return;
+    }
+
+    let subtotal = 0;
+    tbody.innerHTML = "";
+
+    cart.forEach(item => {
+      const numericPrice = parseFloat((item.price || "0").toString().replace(/[^\d.]/g, ""));
+      const total = item.qty * numericPrice;
+      subtotal += total;
+
+      tbody.innerHTML += `
+  <tr>
+    <td>${item.name}</td>
+    <td>₹${numericPrice.toFixed(2)}</td>
+    <td>
+      <div class="flex items-center gap-2">
+        <button onclick="updateQty('${item.name}', -1)" class="bg-yellow-400 text-black px-0.5 rounded hover:bg-yellow-500">➖</button>
+        <div class="min-w-[30px] text-center font-semibold text-white">${item.qty}</div>
+        <button onclick="updateQty('${item.name}', 1)" class="bg-yellow-400 text-black px-0.5 rounded hover:bg-yellow-500">➕</button>
+      </div>
+    </td>
+    <td>₹${total.toFixed(2)}</td>
+    </tr>`;
+});
+
+  // ✅ Correct place to update subtotal and button
+subtotalEl.textContent = `Subtotal: ₹${subtotal % 1 === 0 ? subtotal.toFixed(0) : subtotal.toFixed(2)
+  }`;
+subtotalEl.style.display = "block";
+checkoutBtn.style.display = "inline-block";
+  }
+  loadCart();
+	
+function clearCart() {
+  if (confirm("Are you sure you want to clear the cart?")) {
+    localStorage.removeItem("cart");
+    localStorage.removeItem("cartCounts");
+    loadCart();
+  }
+}
+	
+function updateQty(name, change) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const index = cart.findIndex(item => item.name === name);
+  if (index > -1) {
+    cart[index].qty += change;
+    if (cart[index].qty < 1) cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+}
+	
+function removeItem(name) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const updatedCart = cart.filter(item => item.name !== name);
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  loadCart();
+}
+
+loadCart();
+	
+function updateCartCount() {
+  const cartCounts = JSON.parse(localStorage.getItem("cartCounts")) || {};
+  const count = Object.values(cartCounts).reduce((a, b) => a + b, 0);
+  const headerBadge = document.getElementById("header-cart-count");
+  const mobileBadge = document.getElementById("mobile-cart-count");
+
+  if (headerBadge) headerBadge.textContent = count;
+  if (mobileBadge) mobileBadge.textContent = count;
+}
+
+function proceedToCheckout() {
+  alert("Thank you! Checkout coming soon...");
+}
+
+loadCart()
+
+clearCart()
+
+updateQty()
+
+removeItem()
+	
+</script>
+
+</body>
+</html>
