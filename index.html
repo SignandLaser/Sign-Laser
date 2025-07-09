@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign and Laser</title>
   <link href="style.css" rel="stylesheet" />
@@ -161,95 +161,90 @@
 
 <!-- Scripts -->
 <script>
-  const cartCounts = {}; // product index -> count
-  let allProducts = []; // Global product storage
-  let cart = []; // To store cart items
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartCounts = JSON.parse(localStorage.getItem("cartCounts")) || {};
+let allProducts = []; // 🆕 Needed to avoid reference error
 
 
   function convertDriveLink(url) {
     const match = url && url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-    if (match) return `https://lh3.googleusercontent.com/d/${match[1]}=w1200`;
-    return "https://via.placeholder.com/300x200?text=Image+Missing";
+    return match ? `https://lh3.googleusercontent.com/d/${match[1]}=w1200` : "https://via.placeholder.com/300x200?text=Image+Missing";
   }
 
   async function fetchProducts() {
     const res = await fetch("https://script.google.com/macros/s/AKfycbyx-kEMJzCx6IngTDDWaAwFLMnWobgZBCnVmENqUrGhtDwvlKsdavLwUqpEULnazsiy9g/exec");
     const products = await res.json();
-	const container = document.getElementById("dynamic-products");
-    const loader = document.getElementById("loader");
-    loader.style.display = "none"; // hide spinner after loading
     allProducts = products.map(p => ({
-  ...p,
-  category: p.category || 'uncategorized'
-}));
+      ...p,
+      category: p.category?.toLowerCase().trim() || 'uncategorized'
+    }));
     renderProducts(allProducts);
+    document.getElementById("loader").style.display = "none";
   }
 
   function renderProducts(products) {
-  const container = document.getElementById("dynamic-products");
-  const loader = document.getElementById("loader");
-  if (loader) loader.style.display = "none";
-  container.innerHTML = ""; // Clear previous
-	  
-  function escapeHTML(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+    const container = document.getElementById("dynamic-products");
+    container.innerHTML = "";
 
-  products.forEach((p, i) => {
-	if (cartCounts[i] === undefined) cartCounts[i] = 0;
-    const card = `
-      <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
-        <img src="${convertDriveLink(p.image)}" alt="${p.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
-        <div class="product-content mt-4 flex flex-col justify-between h-full">
-          <div>
-            <h3 class="text-xl font-bold mb-2">${escapeHTML(p.name)}</h3>
-            <p class="text-gray-700 mb-4">${escapeHTML(p.description)}</p>
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    products.forEach((p) => {
+      const key = p.name;
+      if (cartCounts[key] === undefined) cartCounts[key] = 0;
+      const count = cartCounts[key];
+      const i = encodeURIComponent(key);
+      const card = `
+        <div class="bg-gray-50 rounded-2xl shadow-md p-6 transform transition duration-300 hover:scale-105 fade-in product-card">
+          <img src="${convertDriveLink(p.image)}" alt="${escapeHTML(p.name)}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found';" />
+          <div class="product-content mt-4 flex flex-col justify-between h-full">
+            <div>
+              <h3 class="text-xl font-bold mb-2">${escapeHTML(p.name)}</h3>
+              <p class="text-gray-700 mb-4">${escapeHTML(p.description)}</p>
+            </div>
+            <div>
+              <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
+              <label class="block mb-1">Buying Options:</label>
+              <select id="payment-${i}" class="w-full border rounded p-2 mb-3">
+                <option value="whatsapp">Order via WhatsApp</option>
+                <option value="/Sign-Laser/Order?name=${i}&price=${p.price}">Order via Website</option>
+                <option value="${p.amazon}">Buy on Amazon</option>
+              </select>
+              <div class="flex gap-2 items-center">
+                <button onclick="handleOrder('payment-${i}')" class="w-[70%] bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full text-sm font-semibold">Order</button>
+                <div class="w-[30%] h-10 bg-blue-600 text-white rounded-full text-sm font-semibold relative overflow-hidden">
+                  ${
+                    count > 0
+                      ? `<div class='flex items-center justify-between h-full px-2'>
+                          <button onclick='decreaseCart("${key}")' class='text-lg font-bold'>−</button>
+                          <span id='count-${i}' class='text-base font-semibold'>${count}</span>
+                          <button onclick='increaseCart("${key}", ${JSON.stringify(p).replace(/"/g, '&quot;')})' class='text-lg font-bold'>+</button>
+                         </div>`
+                      : `<div class='flex items-center justify-center h-full'>
+                          <button onclick='increaseCart("${key}", ${JSON.stringify(p).replace(/"/g, '&quot;')})' class='w-full h-full flex justify-center items-center'>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 00.9 1.5H19
+                                    m-12 0a1 1 0 100 2 1 1 0 000-2zm10 0a1 1 0 100 2 1 1 0 000-2z" />
+                            </svg>
+                          </button>
+                         </div>`
+                  }
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <p class="text-lg font-semibold text-blue-600 mb-3">₹${p.price}</p>
-            <label class="block mb-1">Buying Options:</label>
-            <select id="payment${i}" class="w-full border rounded p-2 mb-3">
-              <option value="whatsapp">Order via WhatsApp</option>
-              <option value="/Sign-Laser/Order?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}">Order via Website</option>
-              <option value="${p.amazon}">Buy on Amazon</option>
-            </select>
-            <div class="flex gap-2 items-center">
-  <!-- Order Button: Now w-[70%] -->
-  <button onclick="handleOrder('payment${i}')" class="w-[70%] bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-full text-sm font-semibold">
-    Order
-  </button>
-
-  <div class="w-[30%] h-10 bg-blue-600 text-white rounded-full text-sm font-semibold relative overflow-hidden">
-  ${cartCounts[i] > 0
-    ? `<div class='flex items-center justify-between h-full px-2'>
-         <button onclick='decreaseCart(${i})' class='text-lg font-bold'>−</button>
-         <span id='count-${i}' class='text-base font-semibold'>${cartCounts[i]}</span>
-         <button onclick='increaseCart(${i}, ${JSON.stringify(p).replace(/"/g, '&quot;')})' class='text-lg font-bold'>+</button>
-       </div>`
-    : `<div class='flex items-center justify-center h-full'>
-         <button onclick="increaseCart(${i}, ${JSON.stringify(p).replace(/"/g, '&quot;')})" 
-      class="flex items-center justify-center h-full w-full">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 00.9 1.5H19
-          m-12 0a1 1 0 100 2 1 1 0 000-2zm10 0a1 1 0 100 2 1 1 0 000-2z" />
-           </svg>
-         </button>
-       </div>`}
-      </div>
-
-
-
-      </div>`;
-    container.innerHTML += card;
-  });
-}
-
+        </div>`;
+      container.innerHTML += card;
+    });
+    updateCartCount();
+  }
 
   function handleOrder(selectId) {
     const select = document.getElementById(selectId);
@@ -261,101 +256,107 @@
 
     if (selected === "whatsapp") {
       const message = `Hi! I'm interested in this product:\n🖼️ Product: ${name}\n💰 Price: ₹${price}\n📷 Image: ${image}`;
-      const encodedMsg = encodeURIComponent(message);
-      window.open(`https://wa.me/918281257256?text=${encodedMsg}`, "_blank");
+      window.open(`https://wa.me/918281257256?text=${encodeURIComponent(message)}`, "_blank");
     } else {
       window.open(selected, "_blank");
     }
   }
-	
-  function addToCart(product) {
-  cart.push(product);
+
+  function increaseCart(name, product) {
+  cartCounts[name] = (cartCounts[name] || 0) + 1;
+
+  const existing = cart.find(p => p.name === name);
+  if (existing) {
+    existing.qty++;
+  } else {
+	  
+    cart.push({
+  name: product.name,
+  price: product.price.toString().replace(/[^\d.]/g, ""),
+  qty: 1
+});
+	  
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("cartCounts", JSON.stringify(cartCounts));
+
+  renderProducts(allProducts);   // ✅ Now updates UI every time
+  updateCartCount();             // ✅ Also update the cart badge count
+}
+
+function decreaseCart(name) {
+  if (!cartCounts[name]) return;
+
+  if (!cartCounts[name] || cartCounts[name] <= 0) return;
+  cartCounts[name]--;
+
+
+  const index = cart.findIndex(p => p.name === name);
+  if (index !== -1) {
+    cart[index].qty--;
+    if (cart[index].qty <= 0) {
+      cart.splice(index, 1);
+    }
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("cartCounts", JSON.stringify(cartCounts));
+  renderProducts(allProducts);
   updateCartCount();
 }
 
-function updateCartCount() {
-  const count = Object.values(cartCounts).reduce((sum, qty) => sum + qty, 0);
+
+  function updateCartCount() {
+  const count = Object.values(cartCounts || {}).reduce((sum, c) => sum + c, 0);
   document.getElementById("header-cart-count").textContent = count;
   document.getElementById("mobile-cart-count").textContent = count;
 }
-	
-function filterProducts(event, category) {
-  currentFilter = category;
 
-  // Update active button
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.classList.remove('active');
-    btn.classList.add('text-gray-600');
-  });
-  event.target.classList.add('active');
-  event.target.classList.remove('text-gray-600');
+  function filterProducts(event, category) {
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.classList.add('text-gray-600');
+    });
+    event.target.classList.add('active');
+    event.target.classList.remove('text-gray-600');
 
-  // Filter and render products
-  const filtered = category === 'all'
-  ? allProducts
-  : allProducts.filter(p => (p.category || 'uncategorized') === category);
-}
+    const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+    renderProducts(filtered);
+  }
 
-
-  // Search Handler
   document.addEventListener("DOMContentLoaded", () => {
+    fetchProducts();
+
     const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      const filtered = allProducts.filter(p =>
+        p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+      );
+      renderProducts(filtered);
+    });
 
-    if (searchInput) {
-      searchInput.addEventListener("input", function () {
-        const query = this.value.toLowerCase();
-        const filtered = allProducts.filter(p =>
-          p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
-        );
-        renderProducts(filtered);
-      });
-    }
-	  
-
-    // Mobile menu toggle
     document.getElementById("menu-btn").addEventListener("click", () => {
       document.getElementById("mobile-menu").classList.toggle("hidden");
     });
-
-    // Fetch on load
-    fetchProducts();
   });
 
-	document.addEventListener("click", function (event) {
-  const menu = document.getElementById("mobile-menu");
-  const button = document.getElementById("menu-btn");
+  document.addEventListener("click", function (event) {
+    const menu = document.getElementById("mobile-menu");
+    const button = document.getElementById("menu-btn");
+    if (!menu.classList.contains("hidden") &&
+        !menu.contains(event.target) &&
+        !button.contains(event.target)) {
+      menu.classList.add("hidden");
+    }
+  });
 
-  // If mobile menu is visible AND click is outside menu and button
-  if (!menu.classList.contains("hidden") &&
-      !menu.contains(event.target) &&
-      !button.contains(event.target)) {
-    menu.classList.add("hidden");
-  }
-});
-
-
-function increaseCart(index, product) {
-  if (!cartCounts[index]) cartCounts[index] = 0;
-  cartCounts[index]++;
-  cart.push(product);
-  updateCartCount();
-  renderProducts(allProducts); // refresh UI to show - 1 +
+  function toggleCart() {
+  window.location.href = "cart.html";
 }
 
-function decreaseCart(index) {
-  if (!cartCounts[index]) return;
-
-  cartCounts[index]--;
-  if (cartCounts[index] < 0) cartCounts[index] = 0;
-
-  // 🧠 Remove one instance of this product from the cart
-  const product = allProducts[index];
-  const cartIndex = cart.findIndex(p => p.name === product.name); // Match by unique property
-  if (cartIndex !== -1) cart.splice(cartIndex, 1);
-
-  updateCartCount();
-  renderProducts(allProducts); // Refresh UI
-}
 </script>
+
 </body>
 </html>
